@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useStore } from '../../store/index'
 import { last14 } from '../../domain/stats'
 import { ALLEX } from '../../domain/plan'
-import { PhotoViewer } from '../shared/PhotoViewer'
 import { DotGrid } from './DotGrid'
 import { SparkLine } from './SparkLine'
 import { BodyWeightChart } from './BodyWeightChart'
@@ -10,15 +9,13 @@ import { PhotoGallery } from './PhotoGallery'
 
 interface ProgressProps {
   date: string
+  onPhotoOpen: (photoId: string, date: string) => void
 }
 
-export function Progress({ date }: ProgressProps) {
+export function Progress({ date, onPhotoOpen }: ProgressProps) {
   const days = useStore((s) => s.days)
   const target = useStore((s) => s.target)
   const setBodyWeight = useStore((s) => s.setBodyWeight)
-  const removePhoto = useStore((s) => s.removePhoto)
-  const [viewingPhoto, setViewingPhoto] = useState<string | null>(null)
-  const [viewingDate, setViewingDate] = useState<string | null>(null)
   const bwRef = useRef<HTMLInputElement>(null)
 
   const keys = last14(date)
@@ -81,23 +78,9 @@ export function Progress({ date }: ProgressProps) {
         days={days}
         onPhotoOpen={(id) => {
           const d = Object.entries(days).find(([, day]) => day.photos?.some((p) => p.id === id))?.[0] ?? date
-          setViewingPhoto(id)
-          setViewingDate(d)
+          onPhotoOpen(id, d)
         }}
       />
-
-      {viewingPhoto && (
-        <PhotoViewer
-          photoId={viewingPhoto}
-          date={viewingDate}
-          onClose={() => { setViewingPhoto(null); setViewingDate(null) }}
-          onDelete={(photoId, photoDate) => {
-            removePhoto(photoDate, photoId)
-            setViewingPhoto(null)
-            setViewingDate(null)
-          }}
-        />
-      )}
     </main>
   )
 }

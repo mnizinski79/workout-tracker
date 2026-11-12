@@ -11,7 +11,7 @@ interface PhotoCardProps {
   onPhotoOpen: (photoId: string, date: string) => void
 }
 
-function PhotoThumb({ photoId, date, onOpen }: { photoId: string; date: string; onOpen: () => void }) {
+function PhotoThumb({ photoId, onOpen }: { photoId: string; onOpen: () => void }) {
   const url = usePhotoUrl(photoId)
   return (
     <button className="ph" onClick={onOpen} aria-label="View photo">
@@ -66,7 +66,6 @@ export function PhotoCard({ date, onPhotoOpen }: PhotoCardProps) {
             <PhotoThumb
               key={p.id}
               photoId={p.id}
-              date={date}
               onOpen={() => onPhotoOpen(p.id, date)}
             />
           ))}
