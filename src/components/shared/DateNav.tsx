@@ -1,3 +1,4 @@
+import { CaretLeft, CaretRight, CalendarBlank } from '@phosphor-icons/react'
 import { ymd } from '../../domain/types'
 
 interface DateNavProps {
@@ -19,7 +20,7 @@ export function DateNav({ date, onPrev, onNext, onToday }: DateNavProps) {
   return (
     <div className="datenav">
       <button className="ib" onClick={onPrev} aria-label="Previous day">
-        ‹
+        <CaretLeft size={20} weight="bold" aria-hidden="true" />
       </button>
       <h1>{formatDate(date)}</h1>
       <button
@@ -29,10 +30,11 @@ export function DateNav({ date, onPrev, onNext, onToday }: DateNavProps) {
         aria-disabled={isToday ? 'true' : undefined}
         aria-label="Next day"
       >
-        ›
+        <CaretRight size={20} weight="bold" aria-hidden="true" />
       </button>
       {!isToday && (
         <button className="todaylink" onClick={onToday}>
+          <CalendarBlank size={14} aria-hidden="true" />
           Back to today
         </button>
       )}

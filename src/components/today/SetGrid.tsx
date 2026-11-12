@@ -1,3 +1,4 @@
+import { Check } from '@phosphor-icons/react'
 import { useStore } from '../../store/index'
 import type { SetEntry } from '../../domain/types'
 
@@ -29,9 +30,10 @@ export function SetGrid({ date, exId, sets }: SetGridProps) {
             <button
               className={`chk${set.d ? ' on' : ''}`}
               aria-pressed={set.d}
+              aria-label={`Set ${i + 1} done`}
               onClick={() => toggleSetDone(date, exId, i)}
             >
-              ✓
+              <Check size={16} weight="bold" aria-hidden="true" />
             </button>
           </div>
         )

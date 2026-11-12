@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Camera } from '@phosphor-icons/react'
 import { useStore } from '../../store/index'
 import { localAdapter } from '../../storage/local'
 import { resizePhoto } from '../../lib/resizePhoto'
@@ -48,6 +49,7 @@ export function PhotoCard({ date, onPhotoOpen }: PhotoCardProps) {
           style={{ minHeight: 40 }}
           onClick={() => fileRef.current?.click()}
         >
+          <Camera size={18} aria-hidden="true" />
           Add photo
         </button>
         <input

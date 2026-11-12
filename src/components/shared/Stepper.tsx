@@ -1,3 +1,5 @@
+import { Minus, Plus } from '@phosphor-icons/react'
+
 interface StepperProps {
   value: number
   onDecrement: () => void
@@ -15,7 +17,7 @@ export function Stepper({ value, onDecrement, onIncrement, label, min, max }: St
         disabled={value <= min}
         aria-label={`Decrease ${label}`}
       >
-        −
+        <Minus size={16} weight="bold" aria-hidden="true" />
       </button>
       <output>{value}</output>
       <button
@@ -23,7 +25,7 @@ export function Stepper({ value, onDecrement, onIncrement, label, min, max }: St
         disabled={value >= max}
         aria-label={`Increase ${label}`}
       >
-        +
+        <Plus size={16} weight="bold" aria-hidden="true" />
       </button>
     </div>
   )
