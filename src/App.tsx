@@ -48,7 +48,7 @@ export default function App() {
       {tab !== 'data' && (
         <DateNav
           date={date}
-          hideArrows={tab !== 'today'}
+          hideArrows={true}
           onPrev={() => {
             const d = new Date(`${date}T12:00:00`)
             d.setDate(d.getDate() - 1)
