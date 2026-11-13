@@ -8,12 +8,16 @@ import { SetGrid } from './SetGrid'
 interface ExerciseCardProps {
   date: string
   exercise: ExercisePlan
+  editMode?: boolean
+  wkKey?: string
 }
 
-export function ExerciseCard({ date, exercise }: ExerciseCardProps) {
+export function ExerciseCard({ date, exercise, editMode, wkKey }: ExerciseCardProps) {
   const days = useStore((s) => s.days)
   const adjustWeight = useStore((s) => s.adjustWeight)
   const adjustSetCount = useStore((s) => s.adjustSetCount)
+  const updateExerciseName = useStore((s) => s.updateExerciseName)
+  const removeExercise = useStore((s) => s.removeExercise)
 
   const day = days[date] ?? blankDay()
   const entry = ensureEntry(day, days, date, exercise)
@@ -44,15 +48,31 @@ export function ExerciseCard({ date, exercise }: ExerciseCardProps) {
   return (
     <section className={cardClass}>
       <div className="row">
-        <div>
-          <h2>{exercise.n}</h2>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {editMode ? (
+            <input
+              defaultValue={exercise.n}
+              onBlur={(e) => wkKey && updateExerciseName(wkKey, exercise.id, e.target.value)}
+              style={{ width: '100%', fontSize: 17, fontWeight: 700, background: 'transparent', border: 'none', borderBottom: '1px solid var(--accent)', color: 'inherit', padding: '2px 0', outline: 'none' }}
+            />
+          ) : (
+            <h2>{exercise.n}</h2>
+          )}
           <div className="meta">
             {exercise.sets} sets × {exercise.lo}–{exercise.hi}
             {exercise.unit ? ' ' + exercise.unit : ' reps'}
             {exercise.note ? ` · ${exercise.note}` : ''}
           </div>
         </div>
-        {!exercise.nw && (
+        {editMode && wkKey ? (
+          <button
+            onClick={() => removeExercise(wkKey, exercise.id)}
+            aria-label={`Remove ${exercise.n}`}
+            style={{ background: 'none', border: 'none', color: 'var(--muted)', fontSize: 22, cursor: 'pointer', padding: '0 4px', lineHeight: 1 }}
+          >
+            ×
+          </button>
+        ) : !exercise.nw && (
           <Stepper
             value={entry.w}
             onDecrement={() => adjustWeight(date, exercise.id, -1)}
@@ -60,22 +80,28 @@ export function ExerciseCard({ date, exercise }: ExerciseCardProps) {
             label="weight"
             min={0}
             max={999}
+            unit="lbs"
           />
         )}
       </div>
-      <div className="row" style={{ marginTop: 10 }}>
-        <span className="meta">Sets today</span>
-        <Stepper
-          value={entry.sets.length}
-          onDecrement={() => adjustSetCount(date, exercise.id, -1)}
-          onIncrement={() => adjustSetCount(date, exercise.id, 1)}
-          label="set count"
-          min={1}
-          max={8}
-        />
-      </div>
-      <SetGrid date={date} exId={exercise.id} sets={entry.sets} />
-      {tip && <div className="tip">{tip}</div>}
+      {!editMode && (
+        <>
+          <div className="row" style={{ marginTop: 10 }}>
+            <span className="meta">Sets today</span>
+            <Stepper
+              value={entry.sets.length}
+              onDecrement={() => adjustSetCount(date, exercise.id, -1)}
+              onIncrement={() => adjustSetCount(date, exercise.id, 1)}
+              label="set count"
+              min={1}
+              max={8}
+              unit="sets"
+            />
+          </div>
+          <SetGrid date={date} exId={exercise.id} sets={entry.sets} />
+          {tip && <div className="tip">{tip}</div>}
+        </>
+      )}
     </section>
   )
 }

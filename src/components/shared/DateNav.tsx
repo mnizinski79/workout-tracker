@@ -10,7 +10,7 @@ interface DateNavProps {
 
 function formatDate(key: string): string {
   const d = new Date(`${key}T12:00:00`)
-  return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
 }
 
 export function DateNav({ date, onPrev, onNext, onToday }: DateNavProps) {

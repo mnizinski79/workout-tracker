@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-import { DownloadSimple, UploadSimple } from '@phosphor-icons/react'
 import { useStore } from '../../store/index'
 import { showToast } from '../../lib/toast'
 import { merge } from '../../domain/merge'
@@ -50,8 +49,7 @@ export function Data() {
           and are not included in the export.
         </p>
         <div style={{ marginTop: 12 }}>
-          <button className="btn" onClick={handleExport}>
-            <DownloadSimple size={18} aria-hidden="true" />
+          <button className="btn ghost" onClick={handleExport}>
             Export JSON
           </button>
         </div>
@@ -65,8 +63,7 @@ export function Data() {
         </p>
         <div style={{ marginTop: 12 }}>
           <label>
-            <span className="btn" role="button" tabIndex={0}>
-              <UploadSimple size={18} aria-hidden="true" />
+            <span className="btn ghost" role="button" tabIndex={0} style={{ display: 'inline-flex', alignItems: 'center' }}>
               Import JSON
             </span>
             <input

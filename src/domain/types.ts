@@ -33,12 +33,15 @@ export interface DayRecord {
   walkInc?: number
   walkSpd?: number
   bikeMin?: number
+  armCount?: number
+  needleCount?: number
 }
 
 export interface AppData {
   days: Record<string, DayRecord>
   target: number
   targetUpdated: number
+  plan?: Record<string, WorkoutDay>
 }
 
 export interface ExercisePlan {

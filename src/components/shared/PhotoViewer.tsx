@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { X, Trash } from '@phosphor-icons/react'
 import { usePhotoUrl } from '../../hooks/usePhotoUrl'
 
 interface PhotoViewerProps {
@@ -44,12 +43,8 @@ export function PhotoViewer({ photoId, date, onClose, onDelete }: PhotoViewerPro
         <div style={{ color: 'var(--muted)', fontSize: 14 }}>Photo unavailable</div>
       )}
       <div className="pvb">
-        <button className="btn ghost" onClick={onClose} aria-label="Close">
-          <X size={18} weight="bold" aria-hidden="true" />
-          Close
-        </button>
+        <button className="btn ghost" onClick={onClose}>Close</button>
         <button className="btn" onClick={handleDelete}>
-          <Trash size={18} aria-hidden="true" />
           {pendingDelete ? 'Tap again to delete' : 'Remove photo'}
         </button>
       </div>

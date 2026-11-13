@@ -1,5 +1,5 @@
+import { useState } from 'react'
 import { useStore } from '../../store/index'
-import { WK } from '../../domain/plan'
 import { blankDay } from '../../domain/types'
 import { protTotal, nextUp } from '../../domain/protein'
 import { ExerciseCard } from './ExerciseCard'
@@ -23,13 +23,17 @@ const WK_OPTIONS: [string, string][] = [
 export function Today({ date, onPhotoOpen }: TodayProps) {
   const days = useStore((s) => s.days)
   const target = useStore((s) => s.target)
+  const plan = useStore((s) => s.plan)
   const setWorkoutKey = useStore((s) => s.setWorkoutKey)
   const addProteinItem = useStore((s) => s.addProteinItem)
+  const addExercise = useStore((s) => s.addExercise)
+
+  const [editMode, setEditMode] = useState(false)
 
   const day = days[date] ?? blankDay()
   const wk = day.wk ?? null
   const k = wk && wk !== 'off' ? wk : null
-  const W = k ? WK[k] : null
+  const W = k ? plan[k] : null
 
   // Session summary stats
   let totalSets = 0, doneSets = 0
@@ -73,9 +77,18 @@ export function Today({ date, onPhotoOpen }: TodayProps) {
               <h2>{W.name}</h2>
               <div className="meta">{W.sub}</div>
             </div>
-            <div className="big">
-              {doneSets}
-              <small>/{totalSets} sets</small>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div className="big">
+                {doneSets}
+                <small>/{totalSets} sets</small>
+              </div>
+              <button
+                className="btn ghost"
+                style={{ minHeight: 32, padding: '0 10px', fontSize: 13 }}
+                onClick={() => setEditMode((v) => !v)}
+              >
+                {editMode ? 'Done' : 'Edit'}
+              </button>
             </div>
           </div>
           <div
@@ -129,8 +142,19 @@ export function Today({ date, onPhotoOpen }: TodayProps) {
       </section>
 
       {W && <WarmUpSection date={date} />}
-      {W && W.ex.map((ex) => <ExerciseCard key={ex.id} date={date} exercise={ex} />)}
-      {W && (
+      {W && W.ex.map((ex) => (
+        <ExerciseCard key={ex.id} date={date} exercise={ex} editMode={editMode} wkKey={k!} />
+      ))}
+      {W && editMode && (
+        <button
+          className="btn ghost"
+          style={{ width: '100%', marginBottom: 8 }}
+          onClick={() => addExercise(k!)}
+        >
+          + Add exercise
+        </button>
+      )}
+      {W && !editMode && (
         <div className="meta" style={{ padding: '0 4px' }}>
           Tap the check to log the top rep target, or type your reps first.
         </div>

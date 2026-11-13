@@ -45,8 +45,8 @@ export function EveryDaySection({ date }: EveryDaySectionProps) {
             label="bike time"
             min={5}
             max={120}
+            unit="min"
           />
-          <span className="meta">min</span>
         </div>
       </div>
       <div className="row" style={{ padding: '8px 0', borderTop: '1px solid var(--line)' }}>

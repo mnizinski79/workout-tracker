@@ -1,13 +1,22 @@
 import { create } from 'zustand'
-import type { AppData, DayRecord, ProteinItem } from '../domain/types'
+import type { AppData, DayRecord, ProteinItem, ExercisePlan, WorkoutDay } from '../domain/types'
 import { blankDay, ymd } from '../domain/types'
 import { ensureEntry, adjustSetCount as _adjustSetCount } from '../domain/progression'
 import { applyDial } from '../domain/pref'
-import { exById } from '../domain/plan'
+import { WK } from '../domain/plan'
 import { merge } from '../domain/merge'
 import { localAdapter } from '../storage/local'
 
+function getPlanEx(plan: Record<string, WorkoutDay>, id: string): ExercisePlan | null {
+  for (const wk of Object.values(plan)) {
+    const ex = wk.ex.find((e) => e.id === id)
+    if (ex) return ex
+  }
+  return null
+}
+
 export interface AppState extends AppData {
+  plan: Record<string, WorkoutDay>
   setWorkoutKey(date: string, key: string): void
   toggleWarm(date: string, warmId: string, checked: boolean): void
   toggleCool(date: string, checked: boolean): void
@@ -33,6 +42,9 @@ export interface AppState extends AppData {
   toggleMeal(date: string, mealId: string, checked: boolean): void
   setProteinGoal(grams: number): void
   setBodyWeight(date: string, value: string): void
+  updateExerciseName(wkKey: string, exId: string, name: string): void
+  addExercise(wkKey: string): void
+  removeExercise(wkKey: string, exId: string): void
   importData(incoming: AppData): void
   exportData(): AppData
 }
@@ -50,6 +62,7 @@ export const useStore = create<AppState>()((set, get) => ({
   days: {},
   target: 110,
   targetUpdated: 0,
+  plan: WK,
 
   setWorkoutKey: (date, key) =>
     set((s) => withDay(s, date, (d) => ({ ...d, wk: key }))),
@@ -65,7 +78,7 @@ export const useStore = create<AppState>()((set, get) => ({
   setReps: (date, exId, setIndex, value) =>
     set((s) => {
       const day = getDay(s, date)
-      const ex = exById(exId)
+      const ex = getPlanEx(s.plan, exId)
       if (!ex) return {}
       const entry = ensureEntry(day, s.days, date, ex)
       const num = Number(value)
@@ -82,7 +95,7 @@ export const useStore = create<AppState>()((set, get) => ({
   toggleSetDone: (date, exId, setIndex) =>
     set((s) => {
       const day = getDay(s, date)
-      const ex = exById(exId)
+      const ex = getPlanEx(s.plan, exId)
       if (!ex) return {}
       const entry = ensureEntry(day, s.days, date, ex)
       const set_ = entry.sets[setIndex]
@@ -103,7 +116,7 @@ export const useStore = create<AppState>()((set, get) => ({
   adjustWeight: (date, exId, direction) =>
     set((s) => {
       const day = getDay(s, date)
-      const ex = exById(exId)
+      const ex = getPlanEx(s.plan, exId)
       if (!ex) return {}
       const entry = ensureEntry(day, s.days, date, ex)
       const inc = ex.inc ?? 5
@@ -119,7 +132,7 @@ export const useStore = create<AppState>()((set, get) => ({
   adjustSetCount: (date, exId, direction) =>
     set((s) => {
       const day = getDay(s, date)
-      const ex = exById(exId)
+      const ex = getPlanEx(s.plan, exId)
       if (!ex) return {}
       const entry = ensureEntry(day, s.days, date, ex)
       const sets = _adjustSetCount(entry.sets, direction)
@@ -185,12 +198,35 @@ export const useStore = create<AppState>()((set, get) => ({
   setBodyWeight: (date, value) =>
     set((s) => withDay(s, date, (d) => ({ ...d, bw: value }))),
 
+  updateExerciseName: (wkKey, exId, name) =>
+    set((s) => {
+      const wk = s.plan[wkKey]
+      if (!wk) return {}
+      return { plan: { ...s.plan, [wkKey]: { ...wk, ex: wk.ex.map((e) => e.id === exId ? { ...e, n: name } : e) } } }
+    }),
+
+  addExercise: (wkKey) =>
+    set((s) => {
+      const wk = s.plan[wkKey]
+      if (!wk) return {}
+      const id = `ex-${Date.now()}`
+      const ex: ExercisePlan = { id, n: 'New exercise', sets: 3, lo: 10, hi: 12, w: 0, inc: 5 }
+      return { plan: { ...s.plan, [wkKey]: { ...wk, ex: [...wk.ex, ex] } } }
+    }),
+
+  removeExercise: (wkKey, exId) =>
+    set((s) => {
+      const wk = s.plan[wkKey]
+      if (!wk) return {}
+      return { plan: { ...s.plan, [wkKey]: { ...wk, ex: wk.ex.filter((e) => e.id !== exId) } } }
+    }),
+
   importData: (incoming) =>
-    set((s) => merge({ days: s.days, target: s.target, targetUpdated: s.targetUpdated }, incoming)),
+    set((s) => merge({ days: s.days, target: s.target, targetUpdated: s.targetUpdated, plan: s.plan }, incoming)),
 
   exportData: () => {
-    const { days, target, targetUpdated } = get()
-    return { days, target, targetUpdated }
+    const { days, target, targetUpdated, plan } = get()
+    return { days, target, targetUpdated, plan }
   },
 }))
 
@@ -205,7 +241,7 @@ let saveTimer: ReturnType<typeof setTimeout> | null = null
 useStore.subscribe((state) => {
   if (saveTimer) clearTimeout(saveTimer)
   saveTimer = setTimeout(() => {
-    localAdapter.save({ days: state.days, target: state.target, targetUpdated: state.targetUpdated })
+    localAdapter.save({ days: state.days, target: state.target, targetUpdated: state.targetUpdated, plan: state.plan })
   }, 800)
 })
 

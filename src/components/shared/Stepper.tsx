@@ -7,9 +7,10 @@ interface StepperProps {
   label: string
   min: number
   max: number
+  unit?: string
 }
 
-export function Stepper({ value, onDecrement, onIncrement, label, min, max }: StepperProps) {
+export function Stepper({ value, onDecrement, onIncrement, label, min, max, unit }: StepperProps) {
   return (
     <div className="stepper">
       <button
@@ -19,7 +20,7 @@ export function Stepper({ value, onDecrement, onIncrement, label, min, max }: St
       >
         <Minus size={16} weight="bold" aria-hidden="true" />
       </button>
-      <output>{value}</output>
+      <output>{value}{unit ? ` ${unit}` : ''}</output>
       <button
         onClick={onIncrement}
         disabled={value >= max}

@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react'
-import { X, Copy } from '@phosphor-icons/react'
 import { useStore } from '../../store/index'
 import { protTotal, summaryText } from '../../domain/protein'
 import { blankDay } from '../../domain/types'
@@ -96,7 +95,7 @@ export function Protein({ date }: ProteinProps) {
                 aria-label={`Remove ${item.n}`}
                 onClick={() => removeProteinItem(date, item.id)}
               >
-                <X size={16} weight="bold" aria-hidden="true" />
+                ×
               </button>
             </div>
           ))}
@@ -117,7 +116,6 @@ export function Protein({ date }: ProteinProps) {
         />
         <div style={{ marginTop: 8 }}>
           <button className="btn" onClick={handleCopy}>
-            <Copy size={18} aria-hidden="true" />
             Copy check-in
           </button>
         </div>

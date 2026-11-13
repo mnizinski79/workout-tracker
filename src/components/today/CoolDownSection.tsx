@@ -44,8 +44,8 @@ export function CoolDownSection({ date }: CoolDownSectionProps) {
             label="walk time"
             min={5}
             max={60}
+            unit="min"
           />
-          <span className="meta">min</span>
         </div>
       </div>
       <div className="dial">
@@ -58,8 +58,8 @@ export function CoolDownSection({ date }: CoolDownSectionProps) {
             label="incline"
             min={0}
             max={15}
+            unit="%"
           />
-          <span className="meta">%</span>
         </div>
       </div>
       <div className="dial">
@@ -72,8 +72,8 @@ export function CoolDownSection({ date }: CoolDownSectionProps) {
             label="speed"
             min={0.5}
             max={6}
+            unit="mph"
           />
-          <span className="meta">mph</span>
         </div>
       </div>
     </section>

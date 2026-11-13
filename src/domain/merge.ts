@@ -22,5 +22,6 @@ export function merge(current: AppData, incoming: AppData): AppData {
     days,
     target: useLocal ? current.target : incoming.target,
     targetUpdated: Math.max(current.targetUpdated, incoming.targetUpdated),
+    plan: incoming.plan ?? current.plan,
   }
 }
