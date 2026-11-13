@@ -5,12 +5,12 @@ export function MealIdeas() {
     <section className="card">
       <h3>Meal ideas</h3>
       {IDEAS.map((idea, i) => (
-        <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, minHeight: 52, padding: '6px 0' }}>
-          <div>
-            <div style={{ fontWeight: 600 }}>{idea.m}</div>
-            <div className="meta">{idea.t}</div>
-          </div>
-          <span className="fg">{idea.g} g</span>
+        <div key={i} className="food">
+          <span className="fn">
+            <span style={{ fontWeight: 600 }}>{idea.m}</span>
+            <small>{idea.t}</small>
+          </span>
+          <span className="fg">+{idea.g} g</span>
         </div>
       ))}
     </section>
