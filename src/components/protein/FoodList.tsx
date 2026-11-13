@@ -9,14 +9,17 @@ interface FoodListProps {
 export function FoodList({ date, veganOnly }: FoodListProps) {
   const addProteinItem = useStore((s) => s.addProteinItem)
 
+  let firstCat = true
   return (
     <section className="card">
       {CATS.map((cat) => {
         const foods = FOODS.filter((f) => f.c === cat && (!veganOnly || f.v))
         if (!foods.length) return null
+        const mt = firstCat ? 0 : 28
+        firstCat = false
         return (
           <div key={cat}>
-            <h3 style={{ marginTop: 28 }}>{cat}</h3>
+            <h3 style={{ marginTop: mt }}>{cat}</h3>
             {foods.map((f) => (
               <button
                 key={f.id}
