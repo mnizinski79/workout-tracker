@@ -45,9 +45,10 @@ export default function App() {
     <>
       <Header />
       <Tabs active={tab} onChange={setTab} />
-      {tab !== 'today' && tab !== 'data' && (
+      {tab !== 'data' && (
         <DateNav
           date={date}
+          hideArrows={tab === 'today'}
           onPrev={() => {
             const d = new Date(`${date}T12:00:00`)
             d.setDate(d.getDate() - 1)
