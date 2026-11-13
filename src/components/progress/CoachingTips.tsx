@@ -62,10 +62,9 @@ export function CoachingTips({ date, days, target }: CoachingTipsProps) {
       })
       if (!res.ok) throw new Error()
       const data = await res.json()
-      const parsed = (data.tips as string)
-        .split(/\n\n+/)
-        .map((t: string) => t.trim())
-        .filter(Boolean)
+      const raw = (data.tips as string).trim()
+      const byParagraph = raw.split(/\n\n+/).map((t) => t.trim()).filter(Boolean)
+      const parsed = byParagraph.length > 1 ? byParagraph : raw.split(/\n/).map((t) => t.trim()).filter(Boolean)
       setTips(parsed)
     } catch {
       setError(true)
@@ -103,7 +102,7 @@ export function CoachingTips({ date, days, target }: CoachingTipsProps) {
       {tips.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {tips.map((tip, i) => (
-            <div key={i} style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg)' }}>
+            <div key={i} style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--ink)' }}>
               {tip}
             </div>
           ))}
