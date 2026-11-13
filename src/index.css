@@ -85,7 +85,6 @@ main{display:flex;flex-direction:column;gap:14px;padding-top:6px}
 .food .fg{font:700 20px var(--display);color:var(--accent);font-variant-numeric:tabular-nums}
 .tag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--good);margin-left:6px}
 .log{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px}
-.log + .log{border-top:1px solid var(--line)}
 .x{background:none;border:0;color:var(--muted);width:44px;height:44px;font-size:20px}
 .field{display:flex;gap:8px;flex-wrap:wrap}
 .field input[type=text],.field input[type=number],.inp{flex:1;min-width:90px;height:46px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:0 12px}
