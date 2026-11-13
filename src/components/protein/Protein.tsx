@@ -4,7 +4,6 @@ import { protTotal } from '../../domain/protein'
 import { blankDay } from '../../domain/types'
 import { showToast } from '../../lib/toast'
 import { FoodList } from './FoodList'
-import { MealChecks } from './MealChecks'
 import { CustomEntry } from './CustomEntry'
 import { MealIdeas } from './MealIdeas'
 
@@ -87,8 +86,6 @@ export function Protein({ date }: ProteinProps) {
           ))}
         </section>
       )}
-
-      <MealChecks date={date} />
 
       {/* Food list with vegan filter */}
       <section className="card">
