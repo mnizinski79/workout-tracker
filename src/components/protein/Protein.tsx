@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useStore } from '../../store/index'
-import { protTotal, summaryText } from '../../domain/protein'
+import { protTotal } from '../../domain/protein'
 import { blankDay } from '../../domain/types'
 import { showToast } from '../../lib/toast'
 import { FoodList } from './FoodList'
@@ -19,7 +19,6 @@ export function Protein({ date }: ProteinProps) {
   const setProteinGoal = useStore((s) => s.setProteinGoal)
   const [veganOnly, setVeganOnly] = useState(false)
   const goalRef = useRef<HTMLInputElement>(null)
-  const sumRef = useRef<HTMLTextAreaElement>(null)
 
   const day = days[date] ?? blankDay()
   const t = protTotal(day)
@@ -32,19 +31,6 @@ export function Protein({ date }: ProteinProps) {
       showToast('Enter 20 to 400 g')
     } else {
       setProteinGoal(n)
-    }
-  }
-
-  const handleCopy = async () => {
-    const text = summaryText(days, date, target)
-    try {
-      await navigator.clipboard.writeText(text)
-      showToast('Copied')
-    } catch {
-      if (sumRef.current) {
-        sumRef.current.select()
-      }
-      showToast('Select and copy the text')
     }
   }
 
@@ -103,23 +89,6 @@ export function Protein({ date }: ProteinProps) {
       )}
 
       <MealChecks date={date} />
-
-      {/* Share today */}
-      <section className="card">
-        <h3>Share today</h3>
-        <textarea
-          className="sum"
-          ref={sumRef}
-          readOnly
-          aria-label="Check-in summary"
-          value={summaryText(days, date, target)}
-        />
-        <div style={{ marginTop: 8 }}>
-          <button className="btn" onClick={handleCopy}>
-            Copy check-in
-          </button>
-        </div>
-      </section>
 
       {/* Food list with vegan filter */}
       <section className="card">

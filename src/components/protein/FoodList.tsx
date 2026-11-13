@@ -16,7 +16,7 @@ export function FoodList({ date, veganOnly }: FoodListProps) {
         if (!foods.length) return null
         return (
           <div key={cat}>
-            <h3 style={{ marginTop: 14 }}>{cat}</h3>
+            <h3 style={{ marginTop: 28 }}>{cat}</h3>
             {foods.map((f) => (
               <button
                 key={f.id}

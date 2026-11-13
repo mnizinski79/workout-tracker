@@ -61,7 +61,6 @@ main{display:flex;flex-direction:column;gap:14px;padding-top:6px}
 .check input{width:26px;height:26px;accent-color:var(--good);flex:none;margin:0}
 .check span{flex:1}
 .check small{color:var(--muted)}
-.check + .check{border-top:1px solid var(--line)}
 .sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px;margin-top:12px}
 .dial{min-height:52px;padding:4px 0}
 .dial + .dial,.check + .dial{border-top:1px solid var(--line)}
@@ -81,7 +80,6 @@ main{display:flex;flex-direction:column;gap:14px;padding-top:6px}
 .btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;min-height:46px;padding:0 16px;font-weight:600}
 .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
 .food{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;min-height:52px;padding:6px 0;background:none;border:0;text-align:left}
-.food + .food{border-top:1px solid var(--line)}
 .food .fn{display:flex;flex-direction:column}
 .food small{color:var(--muted)}
 .food .fg{font:700 20px var(--display);color:var(--accent);font-variant-numeric:tabular-nums}
