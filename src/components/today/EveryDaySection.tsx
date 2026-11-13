@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { useStore } from '../../store/index'
 import { pref } from '../../domain/pref'
 import { blankDay } from '../../domain/types'
@@ -17,9 +16,6 @@ export function EveryDaySection({ date }: EveryDaySectionProps) {
 
   const day = days[date] ?? blankDay()
   const bikeMin = pref(days, date, 'bikeMin', 30)
-  const sitRef = useRef<HTMLInputElement>(null)
-  const pushRef = useRef<HTMLInputElement>(null)
-
   return (
     <section className="card">
       <h3>Every day</h3>
@@ -56,8 +52,7 @@ export function EveryDaySection({ date }: EveryDaySectionProps) {
           id={`${date}-sit`}
           type="text"
           inputMode="numeric"
-          ref={sitRef}
-          defaultValue={day.sit}
+          value={day.sit}
           placeholder="0"
           onChange={(e) => setSitUps(date, e.target.value)}
         />
@@ -69,8 +64,7 @@ export function EveryDaySection({ date }: EveryDaySectionProps) {
           id={`${date}-push`}
           type="text"
           inputMode="numeric"
-          ref={pushRef}
-          defaultValue={day.push}
+          value={day.push}
           placeholder="0"
           onChange={(e) => setPushUps(date, e.target.value)}
         />

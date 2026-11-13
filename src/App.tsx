@@ -61,8 +61,8 @@ export default function App() {
           onToday={() => setDate(ymd(new Date()))}
         />
       )}
-      {tab === 'today' && <Today date={date} onPhotoOpen={openPhoto} />}
-      {tab === 'protein' && <Protein date={date} />}
+      {tab === 'today' && <Today key={date} date={date} onPhotoOpen={openPhoto} />}
+      {tab === 'protein' && <Protein key={date} date={date} />}
       {tab === 'progress' && <Progress date={date} onPhotoOpen={openPhoto} />}
       {tab === 'data' && <Data />}
       <Toast />

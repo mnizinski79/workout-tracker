@@ -53,6 +53,7 @@ export function Today({ date, onPhotoOpen }: TodayProps) {
   return (
     <main>
       {/* Workout type segmented control */}
+      <div className="meta" style={{ padding: '0 4px 4px' }}>Workout program for this day:</div>
       <div className="seg" role="group" aria-label="Workout for this day">
         {WK_OPTIONS.map(([id, label]) => {
           const on = (wk ?? 'off') === id
