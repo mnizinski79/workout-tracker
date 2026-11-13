@@ -4,7 +4,7 @@ A mobile-first PWA for tracking vegetarian workouts, protein intake, and body we
 
 ## Features
 
-- **Today** — workout type selector (Tue/Wed/Thu/Rest), exercise cards with auto-progression, warm-up and cool-down timed dials, session photos, every-day activities (bike, sit-ups, push-ups)
+- **Today** — workout type selector (Tue/Wed/Thu/Rest), exercise cards with auto-progression, warm-up and cool-down timed dials, session photos, every-day activities (bike, sit-ups, push-ups); tap **Edit** to rename, add, or remove exercises
 - **Protein** — goal tracker, food list with vegan filter, meal checks, custom entries, copy check-in summary
 - **Progress** — 14-day activity dots, lift trend sparklines, body weight chart, photo gallery
 - **Data** — export and import JSON backups (photos stored locally on device are not included)
