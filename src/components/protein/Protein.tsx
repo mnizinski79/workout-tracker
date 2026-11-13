@@ -91,16 +91,18 @@ export function Protein({ date }: ProteinProps) {
       <section className="card">
         <div className="row">
           <h3 style={{ margin: 0 }}>Vegetarian protein sources</h3>
-          <label className="check" style={{ minHeight: 40, gap: 8 }}>
+          <label className="toggle">
             <input
               type="checkbox"
               checked={veganOnly}
               onChange={(e) => setVeganOnly(e.target.checked)}
             />
-            <span style={{ fontSize: 14 }}>Vegan only</span>
+            <div className="toggle-track">
+              <div className="toggle-thumb" />
+            </div>
+            <span>Vegan only</span>
           </label>
         </div>
-        <div className="meta">Tap to add to today. Amounts are approximate; check your labels.</div>
       </section>
       <FoodList date={date} veganOnly={veganOnly} />
 
