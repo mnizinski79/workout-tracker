@@ -109,3 +109,29 @@ export function ymd(d: Date): string {
 export function dateOf(k: string): Date {
   return new Date(`${k}T12:00:00`)
 }
+
+// Returns the calendar date for a workout key within the current Mon–Sun week.
+// 'tue'→Tuesday, 'wed'→Wednesday, 'thu'→Thursday, anything else→today.
+export function weekDayDate(key: string): string {
+  const today = new Date()
+  const dow = today.getDay() // 0=Sun … 6=Sat
+  const mondayOffset = dow === 0 ? 6 : dow - 1
+  const monday = new Date(today)
+  monday.setDate(today.getDate() - mondayOffset)
+  const offsets: Record<string, number> = { tue: 1, wed: 2, thu: 3 }
+  if (key in offsets) {
+    const d = new Date(monday)
+    d.setDate(monday.getDate() + offsets[key])
+    return ymd(d)
+  }
+  return ymd(today)
+}
+
+// Returns the workout key ('tue'|'wed'|'thu'|'rest') for a calendar date.
+export function dateToWkKey(dateStr: string): 'tue' | 'wed' | 'thu' | 'rest' {
+  const dow = new Date(`${dateStr}T12:00:00`).getDay()
+  if (dow === 2) return 'tue'
+  if (dow === 3) return 'wed'
+  if (dow === 4) return 'thu'
+  return 'rest'
+}

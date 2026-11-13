@@ -45,7 +45,7 @@ export default function App() {
     <>
       <Header />
       <Tabs active={tab} onChange={setTab} />
-      {tab !== 'data' && (
+      {tab !== 'today' && tab !== 'data' && (
         <DateNav
           date={date}
           onPrev={() => {
@@ -61,7 +61,7 @@ export default function App() {
           onToday={() => setDate(ymd(new Date()))}
         />
       )}
-      {tab === 'today' && <Today key={date} date={date} onPhotoOpen={openPhoto} />}
+      {tab === 'today' && <Today key={date} date={date} onDateChange={setDate} onPhotoOpen={openPhoto} />}
       {tab === 'protein' && <Protein key={date} date={date} />}
       {tab === 'progress' && <Progress date={date} onPhotoOpen={openPhoto} />}
       {tab === 'data' && <Data />}
