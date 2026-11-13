@@ -59,7 +59,7 @@ export function ProteinChart({ date, days, target }: ProteinChartProps) {
           x1={L} y1={goalY} x2={L + IW} y2={goalY}
           stroke="var(--accent)" strokeWidth="1" strokeDasharray="4 3" opacity="0.5"
         />
-        <text x={L - 4} y={goalY + 4} textAnchor="end">
+        <text x={0} y={goalY + 4} textAnchor="start">
           {target}g
         </text>
 
@@ -84,7 +84,7 @@ export function ProteinChart({ date, days, target }: ProteinChartProps) {
 
         {/* Y label — only show when someone exceeded the goal */}
         {maxV > target && (
-          <text x={L - 4} y={T + 4} textAnchor="end" style={{ fill: 'var(--muted)', fontSize: 9 }}>{maxV}g</text>
+          <text x={0} y={T + 4} textAnchor="start" style={{ fill: 'var(--muted)', fontSize: 9 }}>{maxV}g</text>
         )}
 
         {/* X labels */}
