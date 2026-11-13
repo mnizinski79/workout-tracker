@@ -59,7 +59,6 @@ export default function App() {
             d.setDate(d.getDate() + 1)
             setDate(ymd(d))
           }}
-          onToday={() => setDate(ymd(new Date()))}
         />
       )}
       {tab === 'today' && <Today key={date} date={date} onDateChange={setDate} onPhotoOpen={openPhoto} />}
