@@ -1,16 +1,15 @@
 import { last14 } from '../../domain/stats'
-import { didLift, didBike, hitProtein } from '../../domain/stats'
+import { didLift, didBike } from '../../domain/stats'
 import type { DayRecord } from '../../domain/types'
 
 interface DotGridProps {
   date: string
   days: Record<string, DayRecord>
-  target: number
 }
 
 const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
-export function DotGrid({ date, days, target }: DotGridProps) {
+export function DotGrid({ date, days }: DotGridProps) {
   const keys = last14(date)
 
   return (
@@ -38,15 +37,6 @@ export function DotGrid({ date, days, target }: DotGridProps) {
       {keys.map((k) => {
         const on = didBike(days[k])
         return <span key={k} className={`d${on ? ' on' : ''}`} aria-label={on ? 'biked' : ''} />
-      })}
-
-      {/* Protein row */}
-      <span>Prot</span>
-      {keys.map((k) => {
-        const on = hitProtein(days[k], target)
-        return (
-          <span key={k} className={`d${on ? ' on g' : ''}`} aria-label={on ? 'protein goal hit' : ''} />
-        )
       })}
     </div>
   )

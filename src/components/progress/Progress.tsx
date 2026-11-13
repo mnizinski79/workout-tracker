@@ -3,6 +3,7 @@ import { useStore } from '../../store/index'
 import { DotGrid } from './DotGrid'
 import { BodyWeightChart } from './BodyWeightChart'
 import { PhotoGallery } from './PhotoGallery'
+import { CoachingTips } from './CoachingTips'
 
 interface ProgressProps {
   date: string
@@ -21,7 +22,7 @@ export function Progress({ date, onPhotoOpen }: ProgressProps) {
     <main>
       <section className="card">
         <h3>Last 14 days</h3>
-        <DotGrid date={date} days={days} target={target} />
+        <DotGrid date={date} days={days} />
       </section>
 
       {/* Body weight */}
@@ -48,6 +49,8 @@ export function Progress({ date, onPhotoOpen }: ProgressProps) {
       </section>
 
       <BodyWeightChart date={date} days={days} />
+
+      <CoachingTips date={date} days={days} target={target} />
 
       <PhotoGallery
         days={days}

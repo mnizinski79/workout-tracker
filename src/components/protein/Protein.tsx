@@ -6,6 +6,7 @@ import { showToast } from '../../lib/toast'
 import { FoodList } from './FoodList'
 import { CustomEntry } from './CustomEntry'
 import { MealIdeas } from './MealIdeas'
+import { ProteinChart } from './ProteinChart'
 
 interface ProteinProps {
   date: string
@@ -107,6 +108,7 @@ export function Protein({ date }: ProteinProps) {
       <FoodList date={date} veganOnly={veganOnly} />
 
       <CustomEntry date={date} />
+      <ProteinChart date={date} days={days} target={target} />
       <MealIdeas />
     </main>
   )
