@@ -128,7 +128,7 @@ svg.bwc polyline{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin
 svg.bwc circle{fill:var(--accent)}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:5}
 nav.tabs div{display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:560px}
-nav.tabs button{border:0;background:none;min-height:64px;font:600 14px var(--body);letter-spacing:.04em;color:var(--muted);border-top:3px solid transparent;padding:8px 4px 12px}
+nav.tabs button{border:0;background:none;min-height:72px;font:600 14px var(--body);letter-spacing:.04em;color:var(--muted);border-top:3px solid transparent;padding:12px 4px 18px}
 nav.tabs button.on{color:var(--ink);border-top-color:var(--accent)}
 #toast{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9;max-width:92%}
 #toast.show{opacity:1}
