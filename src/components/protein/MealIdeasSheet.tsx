@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import type { IdeaDef } from '../../domain/types'
+import type { IdeaDef, SavedFood } from '../../domain/types'
 import type { CategorizedIdeas, ConversationMessage } from '../../api/mealIdeas'
 import { generateCategorizedIdeas } from '../../api/mealIdeas'
 import { showToast } from '../../lib/toast'
@@ -26,7 +26,7 @@ const PRESET_CHIPS = [
 interface Props {
   open: boolean
   target: number
-  savedFoods: { n: string; g: number }[]
+  savedFoods: SavedFood[]
   onClose: () => void
   onApply: (ideas: IdeaDef[]) => void
 }
