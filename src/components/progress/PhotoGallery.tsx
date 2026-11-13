@@ -10,7 +10,7 @@ function PhotoThumb({ id, onOpen }: { id: string; onOpen: (id: string) => void }
   const url = usePhotoUrl(id)
   return (
     <button
-      className="photo-thumb"
+      className="ph"
       aria-label="View photo"
       onClick={() => onOpen(id)}
       type="button"
@@ -35,7 +35,7 @@ export function PhotoGallery({ days, onPhotoOpen }: PhotoGalleryProps) {
   return (
     <section className="card">
       <h3>Photos</h3>
-      <div className="photo-grid">
+      <div className="photos">
         {latest.map((p) => (
           <PhotoThumb key={p.id} id={p.id} onOpen={onPhotoOpen} />
         ))}
