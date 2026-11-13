@@ -8,7 +8,7 @@ interface ProteinChartProps {
   target: number
 }
 
-const L = 36, R = 8, T = 12, B = 22
+const L = 40, R = 12, T = 12, B = 22
 const W = 320, H = 110
 const IW = W - L - R
 const IH = H - T - B
@@ -59,7 +59,7 @@ export function ProteinChart({ date, days, target }: ProteinChartProps) {
           x1={L} y1={goalY} x2={L + IW} y2={goalY}
           stroke="var(--accent)" strokeWidth="1" strokeDasharray="4 3" opacity="0.5"
         />
-        <text x={L - 4} y={goalY + 4} textAnchor="end" style={{ fill: 'var(--accent)', fontSize: 9 }}>
+        <text x={L - 4} y={goalY + 4} textAnchor="end">
           {target}g
         </text>
 

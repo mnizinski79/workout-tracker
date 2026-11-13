@@ -4,6 +4,7 @@ import { DotGrid } from './DotGrid'
 import { BodyWeightChart } from './BodyWeightChart'
 import { PhotoGallery } from './PhotoGallery'
 import { CoachingTips } from './CoachingTips'
+import { ProteinChart } from '../protein/ProteinChart'
 
 interface ProgressProps {
   date: string
@@ -24,6 +25,8 @@ export function Progress({ date, onPhotoOpen }: ProgressProps) {
         <h3>Last 14 days</h3>
         <DotGrid date={date} days={days} />
       </section>
+
+      <ProteinChart date={date} days={days} target={target} />
 
       {/* Body weight */}
       <section className="card">
