@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { AppData, DayRecord, ProteinItem, ExercisePlan, WorkoutDay } from '../domain/types'
+import type { AppData, DayRecord, ProteinItem, ExercisePlan, WorkoutDay, SavedFood } from '../domain/types'
 import { blankDay, ymd } from '../domain/types'
 import { ensureEntry, adjustSetCount as _adjustSetCount } from '../domain/progression'
 import { applyDial } from '../domain/pref'
@@ -16,6 +16,8 @@ function getPlanEx(plan: Record<string, WorkoutDay>, id: string): ExercisePlan |
 }
 
 export interface AppState extends AppData {
+  savedFoods: SavedFood[]
+  mealIdeas: import('../domain/types').IdeaDef[]
   plan: Record<string, WorkoutDay>
   setWorkoutKey(date: string, key: string): void
   toggleWarm(date: string, warmId: string, checked: boolean): void
@@ -39,6 +41,10 @@ export interface AppState extends AppData {
   removePhoto(date: string, photoId: string): void
   addProteinItem(date: string, item: ProteinItem): void
   removeProteinItem(date: string, itemId: string): void
+  saveFood(food: Omit<SavedFood, 'id'>): void
+  removeSavedFood(id: string): void
+  updateSavedFood(id: string, n: string, g: number): void
+  setMealIdeas(ideas: import('../domain/types').IdeaDef[]): void
   toggleMeal(date: string, mealId: string, checked: boolean): void
   setProteinGoal(grams: number): void
   setBodyWeight(date: string, value: string): void
@@ -62,6 +68,8 @@ export const useStore = create<AppState>()((set, get) => ({
   days: {},
   target: 110,
   targetUpdated: 0,
+  savedFoods: [],
+  mealIdeas: [],
   plan: WK,
 
   setWorkoutKey: (date, key) =>
@@ -187,6 +195,21 @@ export const useStore = create<AppState>()((set, get) => ({
       })),
     ),
 
+  saveFood: ({ n, g }) =>
+    set((s) => ({
+      savedFoods: [...s.savedFoods, { id: `sf-${Date.now()}`, n, g }],
+    })),
+
+  removeSavedFood: (id) =>
+    set((s) => ({ savedFoods: s.savedFoods.filter((f) => f.id !== id) })),
+
+  updateSavedFood: (id, n, g) =>
+    set((s) => ({
+      savedFoods: s.savedFoods.map((f) => (f.id === id ? { ...f, n, g } : f)),
+    })),
+
+  setMealIdeas: (ideas) => set(() => ({ mealIdeas: ideas })),
+
   toggleMeal: (date, mealId, checked) =>
     set((s) =>
       withDay(s, date, (d) => ({ ...d, meals: { ...d.meals, [mealId]: checked } })),
@@ -222,11 +245,14 @@ export const useStore = create<AppState>()((set, get) => ({
     }),
 
   importData: (incoming) =>
-    set((s) => merge({ days: s.days, target: s.target, targetUpdated: s.targetUpdated, plan: s.plan }, incoming)),
+    set((s) => ({
+      ...merge({ days: s.days, target: s.target, targetUpdated: s.targetUpdated, plan: s.plan }, incoming),
+      ...(incoming.savedFoods ? { savedFoods: incoming.savedFoods } : {}),
+    })),
 
   exportData: () => {
-    const { days, target, targetUpdated, plan } = get()
-    return { days, target, targetUpdated, plan }
+    const { days, target, targetUpdated, plan, savedFoods, mealIdeas } = get()
+    return { days, target, targetUpdated, plan, savedFoods, mealIdeas }
   },
 }))
 
@@ -241,7 +267,7 @@ let saveTimer: ReturnType<typeof setTimeout> | null = null
 useStore.subscribe((state) => {
   if (saveTimer) clearTimeout(saveTimer)
   saveTimer = setTimeout(() => {
-    localAdapter.save({ days: state.days, target: state.target, targetUpdated: state.targetUpdated, plan: state.plan })
+    localAdapter.save({ days: state.days, target: state.target, targetUpdated: state.targetUpdated, plan: state.plan, savedFoods: state.savedFoods, mealIdeas: state.mealIdeas })
   }, 800)
 })
 

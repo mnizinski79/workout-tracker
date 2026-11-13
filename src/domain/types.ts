@@ -37,11 +37,19 @@ export interface DayRecord {
   needleCount?: number
 }
 
+export interface SavedFood {
+  id: string
+  n: string
+  g: number
+}
+
 export interface AppData {
   days: Record<string, DayRecord>
   target: number
   targetUpdated: number
   plan?: Record<string, WorkoutDay>
+  savedFoods?: SavedFood[]
+  mealIdeas?: IdeaDef[]
 }
 
 export interface ExercisePlan {
