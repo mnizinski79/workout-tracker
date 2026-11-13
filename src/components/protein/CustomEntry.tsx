@@ -8,6 +8,7 @@ interface CustomEntryProps {
 
 export function CustomEntry({ date }: CustomEntryProps) {
   const addProteinItem = useStore((s) => s.addProteinItem)
+  const saveFood = useStore((s) => s.saveFood)
   const nameRef = useRef<HTMLInputElement>(null)
   const gramsRef = useRef<HTMLInputElement>(null)
 
@@ -19,6 +20,7 @@ export function CustomEntry({ date }: CustomEntryProps) {
       return
     }
     addProteinItem(date, { id: `${Date.now()}-custom`, n, g })
+    saveFood({ n, g })
     if (nameRef.current) nameRef.current.value = ''
     if (gramsRef.current) gramsRef.current.value = ''
   }
