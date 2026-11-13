@@ -1,9 +1,6 @@
 import { useRef } from 'react'
 import { useStore } from '../../store/index'
-import { last14 } from '../../domain/stats'
-import { ALLEX } from '../../domain/plan'
 import { DotGrid } from './DotGrid'
-import { SparkLine } from './SparkLine'
 import { BodyWeightChart } from './BodyWeightChart'
 import { PhotoGallery } from './PhotoGallery'
 
@@ -18,7 +15,6 @@ export function Progress({ date, onPhotoOpen }: ProgressProps) {
   const setBodyWeight = useStore((s) => s.setBodyWeight)
   const bwRef = useRef<HTMLInputElement>(null)
 
-  const keys = last14(date)
   const today = days[date]
 
   return (
@@ -27,27 +23,6 @@ export function Progress({ date, onPhotoOpen }: ProgressProps) {
         <h3>Last 14 days</h3>
         <DotGrid date={date} days={days} target={target} />
       </section>
-
-      {/* Exercise sparklines */}
-      {ALLEX.map((ex) => {
-        const vals = keys
-          .map((k) => {
-            const e = days[k]?.ex?.[ex.id]
-            if (!e) return null
-            const done = e.sets.filter((s) => s.d)
-            if (done.length === 0) return null
-            return e.w ?? null
-          })
-          .filter((v): v is number => v !== null)
-        if (vals.length === 0) return null
-        return (
-          <section key={ex.id} className="card spark-row">
-            <span className="spark-label">{ex.n}</span>
-            <SparkLine vals={vals} />
-            <span className="spark-last">{vals[vals.length - 1]} lb</span>
-          </section>
-        )
-      })}
 
       {/* Body weight */}
       <section className="card">
