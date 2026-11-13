@@ -20,61 +20,54 @@ export function CoolDownSection({ date }: CoolDownSectionProps) {
   return (
     <section className="card">
       <h3>Cool-down</h3>
-      <label className="check">
-        <input
-          type="checkbox"
-          checked={!!day.cool}
-          onChange={(e) => toggleCool(date, e.target.checked)}
+      <div className="row" style={{ alignItems: 'center' }}>
+        <label className="check" style={{ flex: 1, margin: 0 }}>
+          <input
+            type="checkbox"
+            checked={!!day.cool}
+            onChange={(e) => toggleCool(date, e.target.checked)}
+          />
+          <span>
+            Incline walk
+            <br />
+            <small>
+              {walkMin} min, {walkInc}% incline, {walkSpd} mph
+            </small>
+          </span>
+        </label>
+        <Stepper
+          value={walkMin}
+          onDecrement={() => adjustDial(date, 'walkMin', -1, 5, 5, 60)}
+          onIncrement={() => adjustDial(date, 'walkMin', 1, 5, 5, 60)}
+          label="walk time"
+          min={5}
+          max={60}
+          unit="min"
         />
-        <span>
-          Incline walk
-          <br />
-          <small>
-            {walkMin} min, {walkInc}% incline, {walkSpd} mph
-          </small>
-        </span>
-      </label>
-      <div className="dial">
-        <div className="row">
-          <span>Time</span>
-          <Stepper
-            value={walkMin}
-            onDecrement={() => adjustDial(date, 'walkMin', -1, 5, 5, 60)}
-            onIncrement={() => adjustDial(date, 'walkMin', 1, 5, 5, 60)}
-            label="walk time"
-            min={5}
-            max={60}
-            unit="min"
-          />
-        </div>
       </div>
-      <div className="dial">
-        <div className="row">
-          <span>Incline</span>
-          <Stepper
-            value={walkInc}
-            onDecrement={() => adjustDial(date, 'walkInc', -1, 1, 0, 15)}
-            onIncrement={() => adjustDial(date, 'walkInc', 1, 1, 0, 15)}
-            label="incline"
-            min={0}
-            max={15}
-            unit="%"
-          />
-        </div>
+      <div className="row" style={{ padding: '8px 0' }}>
+        <span>Incline</span>
+        <Stepper
+          value={walkInc}
+          onDecrement={() => adjustDial(date, 'walkInc', -1, 1, 0, 15)}
+          onIncrement={() => adjustDial(date, 'walkInc', 1, 1, 0, 15)}
+          label="incline"
+          min={0}
+          max={15}
+          unit="%"
+        />
       </div>
-      <div className="dial">
-        <div className="row">
-          <span>Speed</span>
-          <Stepper
-            value={walkSpd}
-            onDecrement={() => adjustDial(date, 'walkSpd', -1, 0.1, 0.5, 6)}
-            onIncrement={() => adjustDial(date, 'walkSpd', 1, 0.1, 0.5, 6)}
-            label="speed"
-            min={0.5}
-            max={6}
-            unit="mph"
-          />
-        </div>
+      <div className="row" style={{ padding: '8px 0' }}>
+        <span>Speed</span>
+        <Stepper
+          value={walkSpd}
+          onDecrement={() => adjustDial(date, 'walkSpd', -1, 0.1, 0.5, 6)}
+          onIncrement={() => adjustDial(date, 'walkSpd', 1, 0.1, 0.5, 6)}
+          label="speed"
+          min={0.5}
+          max={6}
+          unit="mph"
+        />
       </div>
     </section>
   )

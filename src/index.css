@@ -61,7 +61,6 @@ main{display:flex;flex-direction:column;gap:14px;padding-top:6px}
 .check input{width:26px;height:26px;accent-color:var(--good);flex:none;margin:0}
 .check span{flex:1}
 .check small{color:var(--muted)}
-.check + .check{border-top:1px solid var(--line)}
 .sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px;margin-top:12px}
 .dial{min-height:52px;padding:4px 0}
 .dial + .dial,.check + .dial{border-top:1px solid var(--line)}
@@ -79,15 +78,19 @@ main{display:flex;flex-direction:column;gap:14px;padding-top:6px}
 .chip{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:8px 12px;min-height:40px;font-weight:500}
 .chip b{color:var(--accent)}
 .btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;min-height:46px;padding:0 16px;font-weight:600}
+.toggle{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--muted)}
+.toggle input{display:none}
+.toggle-track{width:44px;height:26px;border-radius:99px;background:var(--surface2);border:1px solid var(--line);position:relative;transition:background .2s,border-color .2s;flex:none}
+.toggle input:checked+.toggle-track{background:var(--good);border-color:var(--good)}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.toggle input:checked~.toggle-track .toggle-thumb,.toggle input:checked+.toggle-track .toggle-thumb{transform:translateX(18px)}
 .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
 .food{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;min-height:52px;padding:6px 0;background:none;border:0;text-align:left}
-.food + .food{border-top:1px solid var(--line)}
 .food .fn{display:flex;flex-direction:column}
 .food small{color:var(--muted)}
 .food .fg{font:700 20px var(--display);color:var(--accent);font-variant-numeric:tabular-nums}
 .tag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--good);margin-left:6px}
 .log{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px}
-.log + .log{border-top:1px solid var(--line)}
 .x{background:none;border:0;color:var(--muted);width:44px;height:44px;font-size:20px}
 .field{display:flex;gap:8px;flex-wrap:wrap}
 .field input[type=text],.field input[type=number],.inp{flex:1;min-width:90px;height:46px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:0 12px}

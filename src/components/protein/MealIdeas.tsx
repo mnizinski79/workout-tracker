@@ -5,14 +5,12 @@ export function MealIdeas() {
     <section className="card">
       <h3>Meal ideas</h3>
       {IDEAS.map((idea, i) => (
-        <div className="log" key={i}>
-          <div>
-            <div style={{ fontWeight: 600 }}>{idea.m}</div>
-            <div className="meta">{idea.t}</div>
-          </div>
-          <div className="meta" style={{ whiteSpace: 'nowrap' }}>
-            {idea.g} g
-          </div>
+        <div key={i} className="food">
+          <span className="fn">
+            <span style={{ fontWeight: 600 }}>{idea.m}</span>
+            <small>{idea.t}</small>
+          </span>
+          <span className="fg">+{idea.g} g</span>
         </div>
       ))}
     </section>

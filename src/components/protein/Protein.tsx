@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react'
 import { useStore } from '../../store/index'
-import { protTotal, summaryText } from '../../domain/protein'
+import { protTotal } from '../../domain/protein'
 import { blankDay } from '../../domain/types'
 import { showToast } from '../../lib/toast'
 import { FoodList } from './FoodList'
-import { MealChecks } from './MealChecks'
 import { CustomEntry } from './CustomEntry'
 import { MealIdeas } from './MealIdeas'
 
@@ -19,7 +18,6 @@ export function Protein({ date }: ProteinProps) {
   const setProteinGoal = useStore((s) => s.setProteinGoal)
   const [veganOnly, setVeganOnly] = useState(false)
   const goalRef = useRef<HTMLInputElement>(null)
-  const sumRef = useRef<HTMLTextAreaElement>(null)
 
   const day = days[date] ?? blankDay()
   const t = protTotal(day)
@@ -32,19 +30,6 @@ export function Protein({ date }: ProteinProps) {
       showToast('Enter 20 to 400 g')
     } else {
       setProteinGoal(n)
-    }
-  }
-
-  const handleCopy = async () => {
-    const text = summaryText(days, date, target)
-    try {
-      await navigator.clipboard.writeText(text)
-      showToast('Copied')
-    } catch {
-      if (sumRef.current) {
-        sumRef.current.select()
-      }
-      showToast('Select and copy the text')
     }
   }
 
@@ -102,39 +87,22 @@ export function Protein({ date }: ProteinProps) {
         </section>
       )}
 
-      <MealChecks date={date} />
-
-      {/* Share today */}
-      <section className="card">
-        <h3>Share today</h3>
-        <textarea
-          className="sum"
-          ref={sumRef}
-          readOnly
-          aria-label="Check-in summary"
-          value={summaryText(days, date, target)}
-        />
-        <div style={{ marginTop: 8 }}>
-          <button className="btn" onClick={handleCopy}>
-            Copy check-in
-          </button>
-        </div>
-      </section>
-
       {/* Food list with vegan filter */}
       <section className="card">
         <div className="row">
           <h3 style={{ margin: 0 }}>Vegetarian protein sources</h3>
-          <label className="check" style={{ minHeight: 40, gap: 8 }}>
+          <label className="toggle">
             <input
               type="checkbox"
               checked={veganOnly}
               onChange={(e) => setVeganOnly(e.target.checked)}
             />
-            <span style={{ fontSize: 14 }}>Vegan only</span>
+            <div className="toggle-track">
+              <div className="toggle-thumb" />
+            </div>
+            <span>Vegan only</span>
           </label>
         </div>
-        <div className="meta">Tap to add to today. Amounts are approximate; check your labels.</div>
       </section>
       <FoodList date={date} veganOnly={veganOnly} />
 

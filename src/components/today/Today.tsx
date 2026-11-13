@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useStore } from '../../store/index'
-import { blankDay } from '../../domain/types'
+import { blankDay, weekDayDate, dateToWkKey } from '../../domain/types'
 import { protTotal, nextUp } from '../../domain/protein'
 import { ExerciseCard } from './ExerciseCard'
 import { WarmUpSection } from './WarmUpSection'
@@ -10,6 +10,7 @@ import { PhotoCard } from './PhotoCard'
 
 interface TodayProps {
   date: string
+  onDateChange: (date: string) => void
   onPhotoOpen: (photoId: string, date: string) => void
 }
 
@@ -17,23 +18,21 @@ const WK_OPTIONS: [string, string][] = [
   ['tue', 'Tue'],
   ['wed', 'Wed'],
   ['thu', 'Thu'],
-  ['off', 'Rest'],
+  ['rest', 'Rest'],
 ]
 
-export function Today({ date, onPhotoOpen }: TodayProps) {
+export function Today({ date, onDateChange, onPhotoOpen }: TodayProps) {
   const days = useStore((s) => s.days)
   const target = useStore((s) => s.target)
   const plan = useStore((s) => s.plan)
-  const setWorkoutKey = useStore((s) => s.setWorkoutKey)
   const addProteinItem = useStore((s) => s.addProteinItem)
   const addExercise = useStore((s) => s.addExercise)
 
   const [editMode, setEditMode] = useState(false)
 
   const day = days[date] ?? blankDay()
-  const wk = day.wk ?? null
-  const k = wk && wk !== 'off' ? wk : null
-  const W = k ? plan[k] : null
+  const k = dateToWkKey(date)
+  const W = k !== 'rest' ? plan[k] : null
 
   // Session summary stats
   let totalSets = 0, doneSets = 0
@@ -52,16 +51,16 @@ export function Today({ date, onPhotoOpen }: TodayProps) {
 
   return (
     <main>
-      {/* Workout type segmented control */}
-      <div className="seg" role="group" aria-label="Workout for this day">
+      {/* Day selector — navigates to that day's calendar date */}
+      <div className="seg" role="group" aria-label="Select workout day">
         {WK_OPTIONS.map(([id, label]) => {
-          const on = (wk ?? 'off') === id
+          const on = k === id
           return (
             <button
               key={id}
               className={on ? 'on' : undefined}
               aria-pressed={on}
-              onClick={() => setWorkoutKey(date, id)}
+              onClick={() => onDateChange(weekDayDate(id))}
             >
               {label}
             </button>

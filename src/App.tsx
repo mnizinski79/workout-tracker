@@ -48,6 +48,7 @@ export default function App() {
       {tab !== 'data' && (
         <DateNav
           date={date}
+          hideArrows={tab === 'today'}
           onPrev={() => {
             const d = new Date(`${date}T12:00:00`)
             d.setDate(d.getDate() - 1)
@@ -58,11 +59,10 @@ export default function App() {
             d.setDate(d.getDate() + 1)
             setDate(ymd(d))
           }}
-          onToday={() => setDate(ymd(new Date()))}
         />
       )}
-      {tab === 'today' && <Today date={date} onPhotoOpen={openPhoto} />}
-      {tab === 'protein' && <Protein date={date} />}
+      {tab === 'today' && <Today key={date} date={date} onDateChange={setDate} onPhotoOpen={openPhoto} />}
+      {tab === 'protein' && <Protein key={date} date={date} />}
       {tab === 'progress' && <Progress date={date} onPhotoOpen={openPhoto} />}
       {tab === 'data' && <Data />}
       <Toast />
