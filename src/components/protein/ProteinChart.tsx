@@ -1,5 +1,4 @@
 import type { DayRecord } from '../../domain/types'
-import { blankDay } from '../../domain/types'
 import { last14 } from '../../domain/stats'
 import { protTotal } from '../../domain/protein'
 
@@ -16,7 +15,11 @@ const IH = H - T - B
 
 export function ProteinChart({ date, days, target }: ProteinChartProps) {
   const keys = last14(date)
-  const pts = keys.map((k) => ({ k, g: Math.round(protTotal(days[k] ?? blankDay())) }))
+  const pts = keys.map((k) => {
+    const day = days[k]
+    const g = day?.items ? Math.round(protTotal(day)) : 0
+    return { k, g }
+  })
   const filled = pts.filter((p) => p.g > 0)
 
   if (filled.length < 2) {
@@ -79,8 +82,10 @@ export function ProteinChart({ date, days, target }: ProteinChartProps) {
           )
         })}
 
-        {/* Y label */}
-        <text x={L - 4} y={T + 4} textAnchor="end">{maxV}g</text>
+        {/* Y label — only show when someone exceeded the goal */}
+        {maxV > target && (
+          <text x={L - 4} y={T + 4} textAnchor="end" style={{ fill: 'var(--muted)', fontSize: 9 }}>{maxV}g</text>
+        )}
 
         {/* X labels */}
         <text x={L + keys.indexOf(filled[0].k) * barW + barW / 2} y={H - 4} textAnchor="middle">
